@@ -22,35 +22,35 @@ package:
 
 functions:
   create:
-    handler: todos.create
+    handler: todos.Handler
     events:
       - http:
           path: todos
           method: post
           cors: true
   readAll:
-    handler: todos.readAll
+    handler: todos.Handler::all
     events:
       - http:
           path: todos
           method: get
           cors: true
   readOne:
-    handler: todos.readOne
+    handler: todos.Handler
     events:
       - http:
           path: todos/{id}
           method: get
           cors: true
   update:
-    handler: todos.update
+    handler: todos.Handler
     events:
       - http:
           path: todos/{id}
           method: put
           cors: true
   delete:
-    handler: todos.delete
+    handler: todos.Handler
     events:
       - http:
           path: todos/{id}
