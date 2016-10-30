@@ -43,14 +43,14 @@ functions:
           method: get
           cors: true
   update:
-    handler: todos.Handler
+    handler: todos.Handler::updateOne
     events:
       - http:
           path: todos/{id}
           method: put
           cors: true
   delete:
-    handler: todos.Handler
+    handler: todos.Handler::delete
     events:
       - http:
           path: todos/{id}

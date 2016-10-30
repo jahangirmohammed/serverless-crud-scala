@@ -37,6 +37,15 @@ class Handler {
     Response(200,s"$item")
   }
 
+  def updateOne(input: UpdateOneRequest, context: Context): Response = {
+    table.put(input.getPathParameters.id,"item" -> input.body)
+    Response(200,s"{id: ${input.getPathParameters.id}}")
+  }
+
+  def delete(input: DeleteRequest, context: Context): Response = {
+    table.delete(input.getPathParameters.id)
+    Response(200,s"Deleted todo: ${input.getPathParameters.id}")
+  }
 
 }
 
@@ -51,6 +60,14 @@ case class Data(@BeanProperty var id: String) {
 }
 
 class GetOneRequest(@BeanProperty var pathParameters: Data) {
+  def this() = this(Data(""))
+}
+
+class UpdateOneRequest(@BeanProperty var pathParameters: Data, @BeanProperty var body: String) {
+  def this() = this(Data(""),"")
+}
+
+class DeleteRequest(@BeanProperty var pathParameters: Data) {
   def this() = this(Data(""))
 }
 
