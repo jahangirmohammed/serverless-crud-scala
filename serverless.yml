@@ -1,0 +1,78 @@
+service: serverless-crud-scala
+
+provider:
+  name: aws
+  runtime: java8
+  region: us-east-1
+  stage: dev
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:us-east-1:*:*"
+
+package:
+  artifact: target/scala-2.11/todos.jar
+
+functions:
+  create:
+    handler: todos.create
+    events:
+      - http:
+          path: todos
+          method: post
+          cors: true
+  readAll:
+    handler: todos.readAll
+    events:
+      - http:
+          path: todos
+          method: get
+          cors: true
+  readOne:
+    handler: todos.readOne
+    events:
+      - http:
+          path: todos/{id}
+          method: get
+          cors: true
+  update:
+    handler: todos.update
+    events:
+      - http:
+          path: todos/{id}
+          method: put
+          cors: true
+  delete:
+    handler: todos.delete
+    events:
+      - http:
+          path: todos/{id}
+          method: delete
+          cors: true
+
+resources:
+  Resources:
+    TodosDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'todos'
+
