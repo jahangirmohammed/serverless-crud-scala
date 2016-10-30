@@ -22,14 +22,14 @@ package:
 
 functions:
   create:
-    handler: todos.Handler
+    handler: todos.Handler::create
     events:
       - http:
           path: todos
           method: post
           cors: true
   readAll:
-    handler: todos.Handler::all
+    handler: todos.Handler::getAll
     events:
       - http:
           path: todos
